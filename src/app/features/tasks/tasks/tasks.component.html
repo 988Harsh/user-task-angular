@@ -1,0 +1,15 @@
+<button class="btn btn-primary">Add Task</button>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>text</th>
+            <th>completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let task of tasks">
+            <td>{{task.text}}</td>
+            <td>{{task.completed}}</td>
+        </tr>
+    </tbody>
+</table>
