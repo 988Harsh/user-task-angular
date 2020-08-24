@@ -4,32 +4,27 @@ import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app.routing.module";
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { HighchartsChartModule } from 'highcharts-angular';
+import { CustomHttpInterceptorService } from "./http.interceptor.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
+import { TasksApiService } from "./features/tasks/tasks.api.service";
 import { TaskModule } from "./features/tasks/task.module";
 import { UserModule } from "./features/users/user.module";
 import { ApiService } from "./features/users/api.service";
 import { AppComponent } from './app.component';
-import { TasksComponent } from './features/tasks/tasks/tasks.component';
-import { FooterComponent } from './features/home/footer/footer.component';
-import { TaskEditComponent } from './features/tasks/task-edit/task-edit.component';
-import { UserEditComponent } from './features/users/user-edit/user-edit.component';
-import { UserAddComponent } from './features/users/user-add/user-add.component';
-import { TaskDeleteComponent } from './features/tasks/task-delete/task-delete.component';
-import { TaskAddComponent } from './features/tasks/task-add/task-add.component';
-import { HighlightDirective } from './directives/highlight.directive';
-import { UnlessDirective } from './directives/unless.directive';
 import { TaskService } from './features/tasks/tasks.service';
-import { UsersComponent } from "./features/users/users/users.component";
 import { UserService } from './features/users/users.service';
 import { NavigatorComponent } from './features/home/navigator/navigator.component';
 import { ChartsComponent } from './features/charts/charts.component';
+import { AuthComponent } from './auth/auth.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigatorComponent,
-    ChartsComponent
+    ChartsComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +35,8 @@ import { ChartsComponent } from './features/charts/charts.component';
     UserModule,
     TaskModule
   ],
-  providers: [TaskService, UserService, ApiService],
+  providers: [TaskService, UserService, ApiService, TasksApiService,
+    { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

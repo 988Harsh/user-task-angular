@@ -3,6 +3,8 @@ import { User } from '../user.model';
 import { UserService } from 'src/app/features/users/users.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { ApiService } from '../api.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-edit',
@@ -10,38 +12,50 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./user-edit.component.css']
 })
 export class UserEditComponent implements OnInit {
+  updateSub: Subscription;
   user: User;
-  constructor(private usersService: UserService, private route: ActivatedRoute, private router: Router) { }
+  name: string;
+  email: string;
+  age: number;
+  password: string;
+  constructor(private usersService: UserService, private api: ApiService, private route: ActivatedRoute, private router: Router) { }
 
-  @ViewChild('nameInput', { static: true }) nameInput: ElementRef;
-  @ViewChild('ageInput', { static: true }) ageInput: ElementRef;
-  @ViewChild('emailInput', { static: true }) emailInput: ElementRef;
 
-  saveUser() {
-    this.user.name = this.nameInput.nativeElement.value;
-    this.user.age = this.ageInput.nativeElement.value;
-    this.user.email = this.emailInput.nativeElement.value;
-    this.usersService.saveUser(this.user);
-    this.router.navigate(['/users']);
+  saveUser(f: NgForm) {
   }
 
-  ngOnInit(): void {
-    let id;
+  ngOnInit() {
+    let token;
     this.route.params.subscribe((params: Params) => {
-      id = +params['id'];
+      token = params['token'];
     })
-    this.user = this.usersService.getUser(id)
 
-    this.nameInput.nativeElement.value = this.user.name;
-
-    this.ageInput.nativeElement.value = this.user.age;
-
-    this.emailInput.nativeElement.value = this.user.email;
-
+    this.api.getUser(token).subscribe(data => {
+      this.user = <User>data;
+      // console.log("Here!", this.user);
+      this.name = this.user.name;
+      this.email = this.user.email;
+      this.age = this.user.age;
+      this.password = this.user.password;
+    });
   }
 
   onSubmit(f: NgForm) {
-    console.log(f.value);
+
+
+    const data = f.value;
+
+    this.user.email = data.email;
+    this.user.age = data.age;
+    this.user.name = data.name;
+    this.user.password = data.password;
+
+    this.updateSub = this.api.updateUser(data, this.user.tokens[0].token).subscribe(data => {
+      console.log("Inside Update", data);
+      this.usersService.sendUser(this.user);
+
+    });
+    this.router.navigate(['/users'], { preserveQueryParams: true });
 
   }
 

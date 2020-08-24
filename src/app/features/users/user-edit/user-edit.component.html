@@ -1,18 +1,23 @@
 <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="form-group">
         <label for="name">name</label>
-        <input #nameInput name="name" type="text" required class="form-control" id="name" aria-describedby="emailHelp"
-            placeholder="Enter Name">
+        <input [(ngModel)]="name" name="name" type="text" required class="form-control" id="name"
+            aria-describedby="emailHelp" placeholder="Enter Name">
     </div>
     <div class="form-group">
         <label for="age">age</label>
-        <input #ageInput name="age" type="text" required class="form-control" id="age" placeholder="Enter Age">
+        <input [(ngModel)]="age" name="age" type="text" required class="form-control" id="age" placeholder="Enter Age">
     </div>
     <div class="form-group">
         <label class="form-check-label" for="email">email</label>
-        <input #emailInput name="email" type="email" required email placeholder="Enter email" class="form-control"
-            id="email">
+        <input [(ngModel)]="email" name="email" type="email" required email placeholder="Enter email"
+            class="form-control" id="email">
     </div>
-    <button class="btn btn-primary" hidden [disabled]="!f.valid" type="submit">submit!</button>
-    <button class="btn btn-success" (click)="saveUser()">Save!</button>
+    <div class="form-group">
+        <label class="form-check-label" for="password">Password</label>
+        <input [(ngModel)]="password" name="password" type="password" required placeholder="Enter password"
+            class="form-control" id="password">
+    </div>
+    <button type="submit" class="btn btn-primary">submit!</button>
+    <!-- <button class="btn btn-success" (click)="saveUser()">Save!</button> -->
 </form>

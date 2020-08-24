@@ -1,31 +1,37 @@
-<a [routerLink]="['/users','add']" class="btn btn-primary my-2">Add User!</a>
-<table class="table table-bordered table-sm table-dark">
+<a *ngIf="alert===false" [routerLink]="['/users','add']" class="btn btn-primary my-2">Add User!</a>
+<table *ngIf="alert===false" class="table table-bordered table-sm table-dark">
     <thead>
         <tr>
             <th scope="col">Name</th>
             <th scope="col">Age</th>
             <th scope="col">Email</th>
-            <th scope="col">Tasks</th>
+            <!-- <th scope="col">Tasks</th> -->
             <th scope="col">Options</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users | paginate:config">
             <td>{{user.name}}</td>
             <td>{{user.age}}</td>
             <td>{{user.email}}</td>
-            <td>
+            <!-- <td>
                 <ul>
                     <li *ngFor="let task of user.tasks">{{task.text}}: {{task.completed}}</li>
                 </ul>
-            </td>
+            </td> -->
             <td>
-                <button class="btn btn-outline-primary mr-2" (click)="onEdit(user.id)">Edit</button>
-                <button class="btn btn-outline-danger" (click)="onDeleteClick(user.id)">delete</button>
+                <button class="btn btn-outline-primary mr-2" (click)="onEdit(user)">Edit</button>
+                <button class="btn btn-outline-danger" (click)="onDeleteClick(user)">delete</button>
             </td>
         </tr>
     </tbody>
 </table>
+<pagination-controls *ngIf="alert===false" (pageChange)="pageChange($event)" class="my-pagination">
+</pagination-controls>
+<div *ngIf="alert===true" class="alert alert-danger">
+    <h3>Page accessed is Out of Bound!</h3>
+</div>
+
 <div class="container">
     <router-outlet></router-outlet>
 </div>

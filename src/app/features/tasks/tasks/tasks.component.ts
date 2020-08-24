@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Task } from "../task.model";
-import { TaskService } from "../tasks.service";
+import { TasksApiService } from "../tasks.api.service";
+
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -9,12 +10,20 @@ import { TaskService } from "../tasks.service";
 export class TasksComponent implements OnInit {
 
   tasks: Task[];
-  constructor(private tasksService: TaskService) { }
+  constructor(private tasksApi: TasksApiService) { }
 
   ngOnInit() {
-    this.tasks = this.tasksService.getTasks();
-    console.log(this.tasks);
+    this.tasksApi.listTasks().subscribe(data => {
+      this.tasks = <Task[]>data;
+    });
 
   }
+
+  onEdit(task: Task) {
+
+  }
+
+
+
 
 }

@@ -8,6 +8,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+                    <a class="nav-item nav-link" [hidden]="isLoggedIn" routerLinkActive="active"
+                        [routerLink]="['/auth']">Login</a>
                     <a class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
                         [routerLink]="['/']">Home <span class="
                     sr-only">(current)</span></a>

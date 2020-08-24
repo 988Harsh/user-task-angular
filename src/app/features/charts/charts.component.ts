@@ -16,46 +16,46 @@ export class ChartsComponent implements OnInit {
   users = this.userService.users.length;
   tasks = this.tasksService.tasks.length;
   chartOptions: Highcharts.Options = {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: null,
-      plotShadow: false,
-      type: 'pie'
-    },
-    title: {
-      text: 'No. of Users to Task'
-    },
-    tooltip: {
-      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-    },
-    accessibility: {
-      point: {
-        valueSuffix: '%'
-      }
-    },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-        }
-      }
-    },
-    series: [{
-      name: 'Users And Tasks',
-      colorByPoint: true,
-      data: [{
-        name: 'Users',
-        y: this.users,
-        sliced: true,
-        selected: true
-      }, {
-        name: 'Tasks',
-        y: this.tasks
-      }]
-    }]
+    // chart: {
+    //   plotBackgroundColor: null,
+    //   plotBorderWidth: null,
+    //   plotShadow: false,
+    //   type: 'pie'
+    // },
+    // title: {
+    //   text: 'No. of Users to Task'
+    // },
+    // tooltip: {
+    //   pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    // },
+    // accessibility: {
+    //   point: {
+    //     valueSuffix: '%'
+    //   }
+    // },
+    // plotOptions: {
+    //   pie: {
+    //     allowPointSelect: true,
+    //     cursor: 'pointer',
+    //     dataLabels: {
+    //       enabled: true,
+    //       format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+    //     }
+    //   }
+    // },
+    // series: [{
+    //   name: 'Users And Tasks',
+    //   colorByPoint: true,
+    //   data: [{
+    //     name: 'Users',
+    //     y: this.users,
+    //     sliced: true,
+    //     selected: true
+    //   }, {
+    //     name: 'Tasks',
+    //     y: this.tasks
+    //   }]
+    // }]
 
 
   }; // required

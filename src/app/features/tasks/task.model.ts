@@ -1,10 +1,13 @@
+import { User } from '../users/user.model';
+
 export class Task {
 
-    text: string;
+    description: string;
     completed: boolean;
+    owner: string;
 
     constructor(text, completed) {
-        this.text = text;
+        this.description = text;
         this.completed = completed;
     }
 }

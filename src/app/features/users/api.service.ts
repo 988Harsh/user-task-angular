@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user.model';
 
 @Injectable({
@@ -7,16 +7,36 @@ import { User } from './user.model';
 })
 export class ApiService {
 
+    isLoggedIn = false;
     token: string;
+    server: string = "http://localhost:3000/";
+    constructor(private http: HttpClient) { }
 
-    constructor(private httpClient: HttpClient) { }
-
-    public addUser(data: User) {
-        return this.httpClient.post("http://localhost:3002/users", data, { observe: 'response', withCredentials: true });
+    public login(credentials) {
+        return this.http.post(`${this.server}users/login`, credentials);
     }
 
-    public getUsers() {
-        return this.httpClient.get("http://localhost:3002/users");
+    public addUser(data) {
+        return this.http.post(`${this.server}users`, data);
+    }
+
+    public getUsers(page: number) {
+        return this.http.get(`${this.server}users?page=${page}`);
+    }
+
+    public deleteApiUser(token) {
+        this.token = token;
+        return this.http.delete(`${this.server}users/me`);
+    }
+
+    public getUser(token) {
+        this.token = token;
+        return this.http.get(`${this.server}users/me`);
+    }
+
+    public updateUser(user, token) {
+        this.token = token;
+        return this.http.patch(`${this.server}users/me`, user);
     }
 
 }
