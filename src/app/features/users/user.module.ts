@@ -6,10 +6,13 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from "ngx-pagination";
+import { AuthGuard } from 'src/app/auth/auth.guard';
 
 const routes: Routes = [
     {
-        path: 'users', component: UsersComponent, children: [
+        path: 'users', component: UsersComponent,
+        canActivate: [AuthGuard],
+        children: [
             { path: 'add', component: UserAddComponent },
             { path: ':token/edit', component: UserEditComponent },
         ]
@@ -17,7 +20,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes), CommonModule, FormsModule, NgxPaginationModule],
+    imports: [RouterModule.forChild(routes), CommonModule, FormsModule, NgxPaginationModule],
     declarations: [UsersComponent, UserAddComponent, UserEditComponent],
     exports: [RouterModule]
 })

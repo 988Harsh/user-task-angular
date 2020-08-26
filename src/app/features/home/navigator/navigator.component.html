@@ -8,13 +8,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" [hidden]="isLoggedIn" routerLinkActive="active"
+                    <a class="nav-item nav-link" routerLinkActive="active" *ngIf="!isLoggedIn"
                         [routerLink]="['/auth']">Login</a>
-                    <a class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+                    <a class="nav-item nav-link" (click)="onLogout()" routerLinkActive="active" *ngIf="isLoggedIn"
+                        [routerLink]="['/auth']">Logout</a>
+                    <a class=" nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
                         [routerLink]="['/']">Home <span class="
                     sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['/users']">Users</a>
-                    <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['/tasks']">Tasks</a>
+                    <a *ngIf="isLoggedIn" class="nav-item nav-link" routerLinkActive="active"
+                        [routerLink]="['/users']">{{isAdmin ? 'Users': 'Profile'}}</a>
+                    <a *ngIf="isLoggedIn" class="nav-item nav-link" routerLinkActive="active"
+                        [routerLink]="['/tasks']">{{ isAdmin ? 'Tasks' : 'My Tasks'}}</a>
                 </div>
             </div>
         </div>

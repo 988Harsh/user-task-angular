@@ -14,8 +14,8 @@ export class TasksApiService {
         return this.http.post(`${this.server}tasks`, task);
     }
 
-    listTasks() {
-        return this.http.get(`${this.server}tasks`);
+    listTasks(page: number) {
+        return this.http.get(`${this.server}tasks?page=${page}`);
     }
 
     fetchTask(id: string) {

@@ -20,10 +20,6 @@ export class UserEditComponent implements OnInit {
   password: string;
   constructor(private usersService: UserService, private api: ApiService, private route: ActivatedRoute, private router: Router) { }
 
-
-  saveUser(f: NgForm) {
-  }
-
   ngOnInit() {
     let token;
     this.route.params.subscribe((params: Params) => {

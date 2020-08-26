@@ -8,9 +8,14 @@ import { User } from './user.model';
 export class ApiService {
 
     isLoggedIn = false;
+    isAdmin = false;
     token: string;
     server: string = "http://localhost:3000/";
     constructor(private http: HttpClient) { }
+
+    setToken(token) {
+        this.token = token;
+    }
 
     public login(credentials) {
         return this.http.post(`${this.server}users/login`, credentials);

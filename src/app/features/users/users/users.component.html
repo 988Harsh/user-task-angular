@@ -1,11 +1,10 @@
-<a *ngIf="alert===false" [routerLink]="['/users','add']" class="btn btn-primary my-2">Add User!</a>
+<a *ngIf="alert===false && isAdmin" [routerLink]="['/users','add']" class="btn btn-primary my-2">Add User!</a>
 <table *ngIf="alert===false" class="table table-bordered table-sm table-dark">
     <thead>
         <tr>
             <th scope="col">Name</th>
             <th scope="col">Age</th>
             <th scope="col">Email</th>
-            <!-- <th scope="col">Tasks</th> -->
             <th scope="col">Options</th>
         </tr>
     </thead>
@@ -20,15 +19,18 @@
                 </ul>
             </td> -->
             <td>
-                <button class="btn btn-outline-primary mr-2" (click)="onEdit(user)">Edit</button>
-                <button class="btn btn-outline-danger" (click)="onDeleteClick(user)">delete</button>
+                <button class="btn btn-outline-primary mr-2"
+                    (click)="onEdit(user)">{{isAdmin ? 'Edit':'Edit Profile'}}</button>
+                <button class="btn btn-outline-danger"
+                    (click)="onDeleteClick(user)">{{isAdmin ? 'Delete':'Delete Account!'}}</button>
             </td>
         </tr>
     </tbody>
 </table>
-<pagination-controls *ngIf="alert===false" (pageChange)="pageChange($event)" class="my-pagination">
+<pagination-controls *ngIf="alert===false && isAdmin" id="usersPagination" (pageChange)="pageChange($event)"
+    class="my-pagination">
 </pagination-controls>
-<div *ngIf="alert===true" class="alert alert-danger">
+<div *ngIf="alert===true && isAdmin " class="alert alert-danger">
     <h3>Page accessed is Out of Bound!</h3>
 </div>
 

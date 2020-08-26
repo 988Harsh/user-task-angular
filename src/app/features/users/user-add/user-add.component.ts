@@ -26,10 +26,11 @@ export class UserAddComponent implements OnInit {
     const data = f.value;
     let user: User = new User(data.name, data.age, data.email, data.password);
     this.usersApi.addUser(user).subscribe((data: any) => {
+      console.log("User Data", data);
       user.tokens = data.token;
       user = <User>data;
       this.usersService.sendUser(<User>data.user);
-      this.router.navigate(['/users'])
+      this.router.navigate(['/users'], { preserveQueryParams: true })
     })
   }
 

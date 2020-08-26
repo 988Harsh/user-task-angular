@@ -17,7 +17,8 @@ import { UserService } from './features/users/users.service';
 import { NavigatorComponent } from './features/home/navigator/navigator.component';
 import { ChartsComponent } from './features/charts/charts.component';
 import { AuthComponent } from './auth/auth.component';
-
+import { AuthService } from "./auth/auth.service";
+import { CookieService } from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { AuthComponent } from './auth/auth.component';
     UserModule,
     TaskModule
   ],
-  providers: [TaskService, UserService, ApiService, TasksApiService,
+  providers: [TaskService, UserService, ApiService, TasksApiService, AuthService, CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })

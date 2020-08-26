@@ -14,9 +14,9 @@ export class CustomHttpInterceptorService implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.token = this.usersApi.token;
-        // console.log("In interceptor", this.token);
+        console.log("In interceptor", this.token);
         request = request.clone({ headers: request.headers.set('Authorization', `Bearer ${this.token}`) });
-        console.log(request);
+        // console.log(request);
         return next.handle(request);
     }
 

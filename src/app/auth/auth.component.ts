@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ApiService } from '../features/users/api.service';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,18 +12,27 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private api: ApiService, private router: Router) { }
+  isLoggedIn = false;
+  constructor(private api: ApiService, private router: Router, private authService: AuthService) { }
 
   login(f: NgForm) {
 
     this.api.login(f.value).subscribe((data: any) => {
+      // console.log("Here!!", "Data", data, "\n\n\n");
       this.api.token = data.token;
-      this.api.isLoggedIn = true;
-      this.router.navigate(['/tasks']);
+      this.authService.login(data);
+      this.router.navigate(['/']);
     });
   }
 
+
   ngOnInit(): void {
+    this.authService.check().subscribe((data) => {
+      if (data !== null) {
+        this.authService.isLoggedIn = true;
+        this.router.navigate['/'];
+      }
+    })
   }
 
 }

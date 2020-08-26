@@ -2,6 +2,7 @@ import { User } from '../users/user.model';
 
 export class Task {
 
+    _id: string;
     description: string;
     completed: boolean;
     owner: string;

@@ -1,1 +1,15 @@
-<p>task-edit works!</p>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+        <label for="description">description</label>
+        <input [(ngModel)]="description" name="description" type="text" required class="form-control" id="description"
+            aria-describedby="emailHelp" placeholder="Enter description">
+    </div>
+    <div class="form-group">
+        <label for="completed">Completed?</label>
+        <select class="form-control" #completed name="completed" id="completed">
+            <option [value]="true">true</option>
+            <option selected [value]="false">false</option>
+        </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Add User</button>
+</form>

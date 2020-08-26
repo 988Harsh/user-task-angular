@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from '../../users/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -10,6 +13,7 @@ export class FooterComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

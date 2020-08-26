@@ -1,5 +1,5 @@
-<button class="btn btn-primary">Add Task</button>
-<table class="table table-bordered table-sm table-dark">
+<button *ngIf="alert===false && !isAdmin" [routerLink]="['/tasks','add']" class="btn btn-primary">Add Task</button>
+<table *ngIf="alert===false" class="table table-bordered table-sm table-dark">
     <thead>
         <tr>
             <th>description</th>
@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let task of tasks">
+        <tr *ngFor="let task of tasks | paginate:config">
             <td>{{task.description}}</td>
             <td>{{task.completed}}</td>
             <td>
@@ -18,3 +18,11 @@
         </tr>
     </tbody>
 </table>
+<pagination-controls *ngIf="alert===false" id="tasksPagination" (pageChange)="pageChange($event)" class="my-pagination">
+</pagination-controls>
+<div *ngIf="alert===true" class="alert alert-danger">
+    <h3>Page accessed is Out of Bound!</h3>
+</div>
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
