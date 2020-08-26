@@ -13,7 +13,9 @@ import { FormsModule } from '@angular/forms';
 const appRoutes: Routes = [
     { path: '', component: FooterComponent, pathMatch: 'full' },
     { path: 'chart', component: ChartsComponent },
-    { path: 'auth', component: AuthComponent }
+    { path: 'auth', component: AuthComponent },
+    { path: 'users', loadChildren: () => import('./features/users/user.module').then(m => m.UserModule) },
+    { path: 'tasks', loadChildren: () => import('./features/tasks/task.module').then(m => m.TaskModule) }
 ]
 
 @NgModule({

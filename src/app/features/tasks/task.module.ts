@@ -10,7 +10,7 @@ import { AuthGuard } from "../../auth/auth.guard";
 
 const taskRoutes: Routes = [
     {
-        path: 'tasks', component: TasksComponent,
+        path: '', component: TasksComponent,
         canActivate: [AuthGuard],
         children: [
             { path: 'add', component: TaskAddComponent },

@@ -6,6 +6,7 @@ import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { HighchartsChartModule } from 'highcharts-angular';
 import { CustomHttpInterceptorService } from "./http.interceptor.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { StoreModule } from "@ngrx/store";
 
 import { TasksApiService } from "./features/tasks/tasks.api.service";
 import { TaskModule } from "./features/tasks/task.module";
@@ -19,6 +20,7 @@ import { ChartsComponent } from './features/charts/charts.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthService } from "./auth/auth.service";
 import { CookieService } from "ngx-cookie-service";
+import { userStateReducer } from "./features/users/store/users.reducer";
 
 @NgModule({
   declarations: [
@@ -33,8 +35,9 @@ import { CookieService } from "ngx-cookie-service";
     AppRoutingModule,
     HttpClientModule,
     HighchartsChartModule,
-    UserModule,
-    TaskModule
+    // UserModule,
+    // TaskModule,
+    StoreModule.forRoot({ userState: userStateReducer })
   ],
   providers: [TaskService, UserService, ApiService, TasksApiService, AuthService, CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptorService, multi: true }],
