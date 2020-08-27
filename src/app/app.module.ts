@@ -7,6 +7,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { CustomHttpInterceptorService } from "./http.interceptor.service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 import { TasksApiService } from "./features/tasks/tasks.api.service";
 import { TaskModule } from "./features/tasks/task.module";
@@ -21,6 +23,9 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthService } from "./auth/auth.service";
 import { CookieService } from "ngx-cookie-service";
 import { userStateReducer } from "./features/users/store/users.reducer";
+import { UserEffects } from "./features/users/store/user.effects";
+import { environment } from 'src/environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -35,9 +40,11 @@ import { userStateReducer } from "./features/users/store/users.reducer";
     AppRoutingModule,
     HttpClientModule,
     HighchartsChartModule,
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     // UserModule,
     // TaskModule,
-    StoreModule.forRoot({ userState: userStateReducer })
+    StoreModule.forRoot({ userState: userStateReducer }),
+    EffectsModule.forRoot([UserEffects])
   ],
   providers: [TaskService, UserService, ApiService, TasksApiService, AuthService, CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptorService, multi: true }],

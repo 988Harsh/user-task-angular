@@ -3,6 +3,7 @@ import { ApiService } from '../../users/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
+import * as UserStateActions from "../../users/store/users.action";
 
 @Component({
   selector: 'app-navigator',
@@ -41,7 +42,7 @@ export class NavigatorComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.store.dispatch(new UserStateActions.Logout());
   }
 
 

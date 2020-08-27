@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user.model';
 import { Store } from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
+import { map } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
 
 @Injectable({

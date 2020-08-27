@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { Store } from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
 import * as UserStateActions from "../features/users/store/users.action";
+import * as UserReducer from '../features/users/store/users.reducer'
 
 @Component({
   selector: 'app-auth',
@@ -15,19 +16,26 @@ import * as UserStateActions from "../features/users/store/users.action";
 })
 export class AuthComponent implements OnInit {
 
+  alert: boolean = false;
   isLoggedIn = false;
-  userState: Observable<{ isLoggedIn: boolean, isAdmin: boolean, token: string }> | Subscription
+  userState: Observable<UserReducer.State> | Subscription
   constructor(private api: ApiService, private router: Router, private authService: AuthService,
-    private store: Store<{ userState: { isLoggedIn: boolean, isAdmin: boolean, token: string } }>) { }
+    private store: Store<{ userState: UserReducer.State }>) { }
 
   login(f: NgForm) {
 
-    this.api.login(f.value).subscribe((data: any) => {
-      // console.log("Here!!", "Data", data, "\n\n\n");
-      this.store.dispatch(new UserStateActions.Login(data.token, data.user.hasOwnProperty('role'), true));
-      this.authService.login(data);
-      this.router.navigate(['/']);
+    this.store.dispatch(new UserStateActions.LoginStart(f.value))
+
+    this.store.select('userState').subscribe((data: any) => {
+      this.isLoggedIn = data.isLoggedIn;
     });
+
+    // this.api.login(f.value).subscribe((data: any) => {
+    //   // console.log("Here!!", "Data", data, "\n\n\n");
+    //   this.store.dispatch(new UserStateActions.Login(data.token, data.user.hasOwnProperty('role')));
+    //   this.authService.login(data);
+    //   this.router.navigate(['/']);
+    // });
   }
 
 

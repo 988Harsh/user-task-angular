@@ -1,21 +1,51 @@
 import { Action } from "@ngrx/store";
 import * as UserStateAction from "./users.action";
 
-const initialState = {
-    isLoggedIn: false,
-    isAdmin: false,
-    token: ''
+export interface State {
+    isLoggedIn: boolean;
+    isAdmin: boolean;
+    token: string;
+    authError: string;
 }
 
-export function userStateReducer(state = initialState, action: UserStateAction.Login) {
+const initialState: State = {
+    isLoggedIn: false,
+    isAdmin: false,
+    token: '',
+    authError: null
+}
+
+export function userStateReducer(state = initialState, action: UserStateAction.UsersState) {
 
     switch (action.type) {
         case UserStateAction.LOG_IN:
             return {
                 ...state,
-                isLoggedIn: action.isLoggedIn,
+                isLoggedIn: true,
                 token: action.token,
-                isAdmin: action.isAdmin
+                isAdmin: action.isAdmin,
+                authError: null
+            }
+        case UserStateAction.LOG_OUT:
+            return {
+                ...state,
+                isLoggedIn: false,
+                isAdmin: false,
+                token: '',
+                authError: null
+            }
+        case UserStateAction.LOG_IN_START:
+            return {
+                ...state,
+                authError: null
+            }
+        case UserStateAction.LOG_IN_FAIL:
+            return {
+                ...state,
+                isLoggedIn: false,
+                isAdmin: false,
+                token: '',
+                authError: action.err
             }
         default:
             return state;
