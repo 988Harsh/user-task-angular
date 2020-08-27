@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../tasks.service';
 import { ApiService } from '../../users/api.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-tasks',
@@ -22,7 +24,10 @@ export class TasksComponent implements OnInit {
   page: number;
   tasks: Task[] = [];
   isAdmin: boolean;
-  constructor(private tasksApi: TasksApiService, private userApi: ApiService, private route: ActivatedRoute, private router: Router, private tasksService: TaskService, private userToken: ApiService, private auth: AuthService) {
+  userState: Subscription;
+
+  constructor(private tasksApi: TasksApiService, private userApi: ApiService, private route: ActivatedRoute, private router: Router, private tasksService: TaskService, private userToken: ApiService, private auth: AuthService,
+    private store: Store<{ userState: { isLoggedIn: boolean, isAdmin: boolean, token: string } }>) {
     this.config = {
       id: 'tasksPagination',
       currentPage: 1,
@@ -36,16 +41,11 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.check().subscribe((data: any) => {
-      if (data !== null) {
-        this.auth.isLoggedIn = true;
-        this.userApi.setToken(data.token);
-        this.isAdmin = data.user.role ? true : false;
-      }
-      else {
-        this.isAdmin = false;
-      }
+
+    this.userState = this.store.select('userState').subscribe(data => {
+      this.isAdmin = data.isAdmin
     })
+
     //fetch Paginated tasks
     this.subscription2 = this.route.queryParams.subscribe(
       params => {
@@ -95,7 +95,6 @@ export class TasksComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscription2.unsubscribe();
-    this.subscription.unsubscribe();
     this.subscriptionSubject.unsubscribe();
   }
 

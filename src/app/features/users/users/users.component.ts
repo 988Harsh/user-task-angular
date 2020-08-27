@@ -5,7 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from "../api.service";
 import { AuthService } from 'src/app/auth/auth.service';
-
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -23,7 +24,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   config: any;
   page: number;
   isAdmin;
-  constructor(private usersService: UserService, private route: ActivatedRoute, private router: Router, private usersApi: ApiService, private auth: AuthService) {
+
+  userState: Observable<{ isLoggedIn: boolean, isAdmin: boolean, token: string }> | Subscription
+
+  constructor(private usersService: UserService, private route: ActivatedRoute, private router: Router, private usersApi: ApiService, private auth: AuthService,
+    private store: Store<{ userState: { isLoggedIn: boolean, isAdmin: boolean, token: string } }>) {
     this.config = {
       id: 'usersPagination',
       currentPage: 1,
@@ -39,18 +44,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.isAuthSub = this.auth.check().subscribe((data: any) => {
-      if (data !== null) {
-        this.auth.isLoggedIn = true;
-        this.usersApi.setToken(data.token);
-        this.isAdmin = data.user.role !== undefined ? true : false;
-      }
-      else {
-        this.isAdmin = false;
-      }
+    this.userState = this.store.select('userState').subscribe(data => {
+      this.isAdmin = data.isAdmin;
     })
-
-
 
     if (this.isAdmin) {
       this.alert = false;
@@ -110,7 +106,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
       this.subscriptionSubject.unsubscribe();
     }
-    this.isAuthSub.unsubscribe();
+
     // this.usersService.users = this.users;
   }
 

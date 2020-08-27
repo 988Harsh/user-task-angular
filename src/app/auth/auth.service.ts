@@ -13,17 +13,11 @@ export class AuthService {
         private store: Store<{ userState: { isLoggedIn: boolean, isAdmin: boolean, token: string } }>) {
         if (this.cookieService.check("user")) {
             this.cookie = JSON.parse(this.cookieService.get("user"));
-            this.store.dispatch(new UserStateAction.Login(this.cookie.token, this.cookie.hasOwnProperty('role')))
+            this.store.dispatch(new UserStateAction.Login(this.cookie.token, this.cookie.hasOwnProperty('role'), true))
         }
-        this.userState = this.store.select('userState').subscribe(data => {
-            this.isLoggedIn = data.isLoggedIn;
-            this.isAdmin = data.isAdmin;
-        })
         this.authSubject = new BehaviorSubject<any>(this.cookie ? this.cookie : null);
     }
 
-    isLoggedIn = false;
-    isAdmin = false;
     cookie;
     authSubject;
 
@@ -32,16 +26,14 @@ export class AuthService {
     }
 
     login(data: any) {
+        data.user.tokens = [];
         this.cookieService.set("user", JSON.stringify(data));
-        if (data.user.role) this.isAdmin = true;
-        this.isLoggedIn = true;
         this.authSubject.next(data)
     }
 
     logout() {
         this.cookieService.delete("user");
-        this.isLoggedIn = false;
-        this.isAdmin = false;
+        this.store.dispatch(new UserStateAction.Login('', false, false));
         this.authSubject.next(null)
     }
 

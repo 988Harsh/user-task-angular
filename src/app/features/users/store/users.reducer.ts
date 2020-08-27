@@ -13,7 +13,7 @@ export function userStateReducer(state = initialState, action: UserStateAction.L
         case UserStateAction.LOG_IN:
             return {
                 ...state,
-                isLoggedIn: true,
+                isLoggedIn: action.isLoggedIn,
                 token: action.token,
                 isAdmin: action.isAdmin
             }

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Task } from "./task.model";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TasksApiService {
 
-    server: string = "http://localhost:3000/";
+    server: string = environment.server;
     constructor(private http: HttpClient) { }
 
     addTask(task: Task) {

@@ -24,8 +24,7 @@ export class AuthComponent implements OnInit {
 
     this.api.login(f.value).subscribe((data: any) => {
       // console.log("Here!!", "Data", data, "\n\n\n");
-      this.store.dispatch(new UserStateActions.Login(data.token, data.user.hasOwnProperty('role')));
-      this.api.token = data.token;
+      this.store.dispatch(new UserStateActions.Login(data.token, data.user.hasOwnProperty('role'), true));
       this.authService.login(data);
       this.router.navigate(['/']);
     });
@@ -35,16 +34,16 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
 
     this.userState = this.store.select('userState').subscribe(data => {
-      this.isLoggedIn = data.isLoggedIn
+      this.isLoggedIn = data.isLoggedIn;
+      this.router.navigate['/'];
     })
 
 
-    this.authService.check().subscribe((data) => {
-      if (data !== null) {
-        this.authService.isLoggedIn = true;
-        this.router.navigate['/'];
-      }
-    })
+    // this.authService.check().subscribe((data) => {
+    //   if (data !== null) {
+    //     this.authService.isLoggedIn = true;
+    //   }
+    // })
   }
 
 }

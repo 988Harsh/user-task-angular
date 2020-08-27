@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user.model';
+import { Store } from "@ngrx/store";
+import { Observable, Subscription } from "rxjs";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
 
-    isLoggedIn = false;
-    isAdmin = false;
+    userState: Subscription;
     token: string;
-    server: string = "http://localhost:3000/";
-    constructor(private http: HttpClient) { }
+    server: string = environment.server;
+    constructor(private http: HttpClient,
+        private store: Store<{ userState: { isLoggedIn: boolean, isAdmin: boolean, token: string } }>) {
+        this.userState = this.store.select('userState').subscribe(data => {
+            this.token = data.token;
+        })
+    }
 
     setToken(token) {
         this.token = token;
