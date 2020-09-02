@@ -5,6 +5,7 @@ import { Store } from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
+import * as UserReducer from "../users/store/users.reducer";
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +16,12 @@ export class ApiService {
     token: string;
     server: string = environment.server;
     constructor(private http: HttpClient,
-        private store: Store<{ userState: { isLoggedIn: boolean, isAdmin: boolean, token: string } }>) {
+        private store: Store<any>) {
         this.userState = this.store.select('userState').subscribe(data => {
+            // this.userState = this.store.select(state => "Bearer " + state.userState.token).subscribe(data => {
+            // this.userState = this.store.select(UserReducer.doSomething).subscribe(data => {
+            // console.log(data);
+
             this.token = data.token;
         })
     }
@@ -44,7 +49,7 @@ export class ApiService {
 
     public getUser(token) {
         this.token = token;
-        return this.http.get(`${this.server}users/me`);
+        return this.http.get(`${this.server}users/profile/me`);
     }
 
     public updateUser(user, token) {

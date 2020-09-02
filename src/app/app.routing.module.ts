@@ -19,7 +19,9 @@ const appRoutes: Routes = [
 ]
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forRoot(appRoutes), FormsModule],
+    imports: [CommonModule, RouterModule.forRoot(appRoutes, {
+    initialNavigation: 'enabled'
+}), FormsModule],
     declarations: [FooterComponent],
     exports: [RouterModule]
 })

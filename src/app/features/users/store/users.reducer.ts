@@ -1,4 +1,4 @@
-import { Action } from "@ngrx/store";
+import { Action, createSelector, createFeatureSelector } from "@ngrx/store";
 import * as UserStateAction from "./users.action";
 
 export interface State {
@@ -8,12 +8,24 @@ export interface State {
     authError: string;
 }
 
+export const selectFeature = (state: State) => state.token;
+
+export const doSomething = createSelector(
+    selectFeature,
+    (token) => "Bearer " + token
+);
+
+
+
 const initialState: State = {
     isLoggedIn: false,
     isAdmin: false,
     token: '',
     authError: null
 }
+
+doSomething(initialState);
+
 
 export function userStateReducer(state = initialState, action: UserStateAction.UsersState) {
 

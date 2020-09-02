@@ -35,7 +35,7 @@ import { environment } from 'src/environments/environment';
     AuthComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
